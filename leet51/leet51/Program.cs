@@ -11,13 +11,14 @@ namespace leet51
         public static IList<IList<string>> SolveNQueens(int n)
         {
             List<IList<string>> queens = new List<IList<string>>();
-            Dfs(queens, new int[n], 0);
+            Dfs(queens, new int[n], 0); //стартовая вершина - пустая доска
             return queens;
         }
 
         private static void Dfs(List<IList<string>> hole, int[] res, int row)
         {
-            if (row == res.Length)
+            if (row == res.Length) //  целевая вершина — любая позиция с восемью ферзями (
+                //правило получения вершины-преемника гарантирует, что ферзи не бьют друг друга)
             {
                 List<string> currentList = new List<string>();
                 for (int j = 0; j < res.Length; j++)
@@ -31,6 +32,7 @@ namespace leet51
                 hole.Add(currentList);
                 return;
             }
+            //Позицию на доске будем представлять как список Y-координат поставленных ферзей. - массив res[]
 
             for (int i = 0; i < res.Length; i++)
             {
