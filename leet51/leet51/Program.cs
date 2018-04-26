@@ -18,17 +18,22 @@ namespace leet51
         private static void Dfs(List<IList<string>> hole, int[] res, int row)
         {
             if (row == res.Length) //  целевая вершина — любая позиция с восемью ферзями (
-                //правило получения вершины-преемника гарантирует, что ферзи не бьют друг друга)
+                                   //правило получения вершины-преемника гарантирует, что ферзи не бьют друг друга)
             {
                 List<string> currentList = new List<string>();
+
+
+
                 for (int j = 0; j < res.Length; j++)
                 {
                     StringBuilder sb = new StringBuilder();
-                    for (int k = 0; k < res.Length; k++)
-                        if (res[j] == k) sb.Append("Q");
-                        else sb.Append(".");
-                    currentList.Add(sb.ToString());
+                   // for (int k = 0; k < res.Length; k++)
+                     //   if (res[j] == k) sb.Append("Q");
+                       // else sb.Append(".");
+                    string s = new string(res.Select(x => x == j ? 'Q' : '.').ToArray());
+                    currentList.Add(s);
                 }
+
                 hole.Add(currentList);
                 return;
             }
@@ -37,8 +42,12 @@ namespace leet51
             for (int i = 0; i < res.Length; i++)
             {
                 bool bAvail = true;
-                for (int j = 0; j < row; j++)
-                    if (res[j] == i || Math.Abs(res[j] - i) == row - j) bAvail = false;
+                bAvail = !res
+                    .Select((y, index) => new { Value = y, Index = index })
+                    .Any(x => x.Value == i || Math.Abs(x.Value - i) == row - x.Index);
+               // for (int j = 0; j < row; j++)
+                 //   if (res[j] == i || Math.Abs(res[j] - i) == row - j)
+                   //     bAvail = false;
                 if (bAvail)
                 {
                     int[] res2 = new int[res.Length];
